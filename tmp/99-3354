@@ -1,0 +1,4 @@
+    for i = #CM.deck, 1, -1 do
+        local card = CM.deck[i]
+        card:draw((WINDOW_WIDTH * 0.1), (WINDOW_HEIGHT * 0.8))
+    end

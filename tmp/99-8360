@@ -1,0 +1,3 @@
+local function printHelloWorld()
+    print("Hello, World!")
+end

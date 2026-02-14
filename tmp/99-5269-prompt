@@ -1,0 +1,140 @@
+You receive a selection in neovim that you need to replace with new code.
+The selection's contents may contain notes, incorporate the notes every time if there are some.
+consider the context of the selection and what you are suppose to be implementing
+<SELECTION_LOCATION>
+range(point(66,1),point(87,4))
+</SELECTION_LOCATION>
+<SELECTION_CONTENT>
+function M.drawCard(amount, from, to)
+    if amount > #from then
+        M.discardHand(M.discardPile, M.deck)
+    end
+    amount = math.min(amount, #from)
+    for i = amount, 1, -1 do
+        -- Declare card like this or above table.remove()
+        -- else from[i] is removed and card will become from[i+1]
+        local card = table.remove(from, i)
+        table.insert(to, card)
+    end
+end
+
+function M.discardHand(hand, discardPile)
+    for i = #hand, 1, -1 do
+        local card = hand[i]
+        if card.discard then
+            table.remove(hand, i)
+            table.insert(discardPile, card)
+        end
+    end
+end
+</SELECTION_CONTENT>
+<FILE_CONTAINING_SELECTION>
+local M = {}
+
+Card = require("cards.Card")
+AttackCard = require("cards.AttackCard")
+BlockCard = require("cards.BlockCard")
+AddManaCard = require("cards.AddManaCard")
+DrawCardCard = require("cards.DrawCardCard")
+
+M.deck = {}
+M.hand = {}
+M.discardPile = {}
+M.heldCard = nil
+M.hoverdCard = nil
+
+function M.update()
+    local mx, my = love.mouse.getPosition()
+
+    M.hoverdCard = nil
+    for _, card in ipairs(CM.hand) do
+        if card:cardHover(mx, my) then
+            M.hoverdCard = card
+        end
+    end
+    if not M.heldCard and love.mouse.isDown(1) then
+        M.heldCard = M.hoverdCard
+    end
+    if M.heldCard then
+        if mx >= 0 and mx <= WINDOW_WIDTH
+            and my >= 0 and my <= WINDOW_HEIGHT then
+            M.heldCard.x = mx - M.heldCard.width / 2
+            M.heldCard.y = my - M.heldCard.height / 2
+        end
+    end
+end
+
+function M.shuffleTable(t)
+    for i = #t, 2, -1 do
+        local j = math.random(i)
+        t[i], t[j] = t[j], t[i]
+    end
+end
+
+function M.shuffledCopy(t)
+    local copy = {}
+    for _, v in ipairs(t) do
+        table.insert(copy, v)
+    end
+    M.shuffleTable(copy)
+    return copy
+end
+
+function M.createDeck()
+    local deck = {}
+    for i = 1, 10, 1 do
+        if i <= 5 then
+            deck[i] = AttackCard(10, 400)
+        elseif i >= 6 then
+            deck[i] = BlockCard(10, 400)
+        end
+    end
+    deck[10] = AddManaCard(10, 400)
+    deck[11] = DrawCardCard(10, 400)
+    return deck
+end
+
+function M.drawCard(amount, from, to)
+    if amount > #from then
+        M.discardHand(M.discardPile, M.deck)
+    end
+    amount = math.min(amount, #from)
+    for i = amount, 1, -1 do
+        -- Declare card like this or above table.remove()
+        -- else from[i] is removed and card will become from[i+1]
+        local card = table.remove(from, i)
+        table.insert(to, card)
+    end
+end
+
+function M.discardHand(hand, discardPile)
+    for i = #hand, 1, -1 do
+        local card = hand[i]
+        if card.discard then
+            table.remove(hand, i)
+            table.insert(discardPile, card)
+        end
+    end
+end
+
+function M.cardToTable(card, from, to)
+    for i = #from, 1, -1 do
+        if card == from[i] then
+            local c = from[i]
+            table.remove(from, i)
+            table.insert(to, c)
+        end
+    end
+end
+
+return M
+</FILE_CONTAINING_SELECTION>
+
+<MustObey>
+NEVER alter any file other than TEMP_FILE.
+never provide the requested changes as conversational output. Return only the code.
+ONLY provide requested changes by writing the change to TEMP_FILE
+
+never attempt to read TEMP_FILE.  It is purely for output.  Previous contents, which may not exist, can be written over without worry
+</MustObey>
+<TEMP_FILE>/home/tux/lua/newCardGame/tmp/99-5269</TEMP_FILE>

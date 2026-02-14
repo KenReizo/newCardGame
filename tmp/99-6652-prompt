@@ -1,0 +1,118 @@
+You receive a selection in neovim that you need to replace with new code.
+The selection's contents may contain notes, incorporate the notes every time if there are some.
+consider the context of the selection and what you are suppose to be implementing
+<SELECTION_LOCATION>
+range(point(25,1),point(27,2))
+</SELECTION_LOCATION>
+<SELECTION_CONTENT>
+local function printHelloWorld()
+
+e
+</SELECTION_CONTENT>
+<FILE_CONTAINING_SELECTION>
+-- Version 005
+package.path = package.path ..
+    ";src/?.lua;src/lib/?.lua;src/cards/?.lua;src/systems/?.lua;src/entities/?.lua;src/debug/?.lua;src/ui/?.lua"
+
+Card = require("cards.Card")
+AttackCard = require("cards.AttackCard")
+BlockCard = require("cards.BlockCard")
+CM = require("systems.CardManager")
+
+Game = require("systems.Game")
+Player = require("entities.Player")
+Enemy = require("entities.enemies.test")
+
+UI = require("systems.UI")
+
+Debug = require("dbug.debugPrints")
+
+
+WINDOW_WIDTH, WINDOW_HEIGHT = 1920, 1080
+
+CM.deck = CM.createDeck()
+CM.hand = {}
+CM.discardPile = {}
+
+local function printHelloWorld()
+
+end
+
+function love.load()
+    love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, { resizable = true, fullscreen = true })
+    math.randomseed(os.time())
+    Game:new()
+    Player:new()
+    Enemy:new()
+    UI.load()
+end
+
+function love.update()
+    Game:update()
+    Enemy:update()
+    Player:update()
+    CM.update()
+end
+
+function love.draw()
+    Player:draw(WINDOW_WIDTH * 0.15, WINDOW_HEIGHT / 2)
+    Enemy:draw(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT / 2)
+    UI.draw()
+    -- Debug
+    Debug.debugPrint()
+end
+
+function love.mousepressed(x, y, button)
+    if button == 1 then
+        if x >= UI.Buttons.EndTurnButton.x and
+            x <= UI.Buttons.EndTurnButton.x + UI.Buttons.EndTurnButton.width and
+            y >= UI.Buttons.EndTurnButton.y and
+            y <= UI.Buttons.EndTurnButton.y + UI.Buttons.EndTurnButton.height then
+            Game.endTurn = true
+        end
+    end
+end
+
+function love.mousereleased(x, y, button)
+    x = x
+    if CM.heldCard and button == 1 then
+        if y <= WINDOW_HEIGHT / 2 and Player.Mana >= CM.heldCard.cost then
+            if CM.heldCard.type == "target" then
+                CM.heldCard.action(Enemy)
+            elseif CM.heldCard.type == "self" then
+                CM.heldCard.action(Player)
+            elseif CM.heldCard.type == "Utility" then
+                CM.heldCard.action()
+            end
+            Player.Mana = Player.Mana - CM.heldCard.cost
+            CM.cardToTable(CM.heldCard, CM.hand, CM.discardPile)
+            CM.heldCard = nil
+        end
+        CM.heldCard = nil
+    end
+end
+
+function love.keypressed(key)
+    if key == "d" then
+        CM.drawCard(1, CM.deck, CM.hand)
+    end
+    if key == "return" then
+        CM.discardHand(CM.hand, CM.discardPile)
+    end
+    if key == "space" then
+        Game.endTurn = true
+    end
+    if key == "m" then
+        Game.cpuEndTurn = true
+    end
+end
+</FILE_CONTAINING_SELECTION>
+
+<MustObey>
+NEVER alter any file other than TEMP_FILE.
+never provide the requested changes as conversational output. Return only the code.
+ONLY provide requested changes by writing the change to TEMP_FILE
+
+never attempt to read TEMP_FILE.  It is purely for output.  Previous contents, which may not exist, can be written over without worry
+</MustObey>
+<TEMP_FILE>/home/tux/lua/newCardGame/tmp/99-6652</TEMP_FILE>

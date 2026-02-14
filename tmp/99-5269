@@ -1,0 +1,47 @@
+function M.update()
+    local mx, my = love.mouse.getPosition()
+
+    M.hoverdCard = nil
+    for _, card in ipairs(M.hand) do
+        if card:cardHover(mx, my) then
+            M.hoverdCard = card
+        end
+    end
+    if not M.heldCard and love.mouse.isDown(1) then
+        M.heldCard = M.hoverdCard
+    end
+    if M.heldCard then
+        if mx >= 0 and mx <= WINDOW_WIDTH
+            and my >= 0 and my <= WINDOW_HEIGHT then
+            M.heldCard.x = mx - M.heldCard.width / 2
+            M.heldCard.y = my - M.heldCard.height / 2
+        end
+    end
+end
+
+function M.drawCard(amount, from, to)
+    if amount > #from then
+        M.discardHand(M.hand, M.discardPile)
+        M.shuffleTable(M.discardPile)
+        for i = #M.discardPile, 1, -1 do
+            table.insert(M.deck, table.remove(M.discardPile, i))
+        end
+    end
+    amount = math.min(amount, #from)
+    for i = amount, 1, -1 do
+        -- Declare card like this or above table.remove()
+        -- else from[i] is removed and card will become from[i+1]
+        local card = table.remove(from, i)
+        table.insert(to, card)
+    end
+end
+
+function M.discardHand(hand, discardPile)
+    for i = #hand, 1, -1 do
+        local card = hand[i]
+        if card.discard then
+            table.remove(hand, i)
+            table.insert(discardPile, card)
+        end
+    end
+end
