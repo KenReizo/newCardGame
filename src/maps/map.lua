@@ -31,6 +31,7 @@ local Map = {
                 if self.nodes[x][y] then
                     love.graphics.setColor(1, 0, 0)
                 end
+                love.graphics.setColor(1, 1, 1)
             end
         end
     end

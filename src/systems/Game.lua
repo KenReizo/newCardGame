@@ -59,7 +59,7 @@ function Game:update()
 
     end
     if self.Stage == Game.Stages.Map then
-        --Game.map:addNode(0, 0, "combat")
+
     end
     if self.Stage == Game.Stages.DeckMenu then
 
