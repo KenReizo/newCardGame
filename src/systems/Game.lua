@@ -51,7 +51,9 @@ function Game:load()
     Game.map = Map
     Game.map:init()
     Game.map:addNode(1, 1, CombatNode)
-    Game.map:addNode(7, 4, CombatNode)
+    Game.map:addNode(7, 7, CombatNode)
+    Game.map:addNode(3, 6, CombatNode)
+    Game.map:addNode(1, 5, CombatNode)
 end
 
 function Game:update()

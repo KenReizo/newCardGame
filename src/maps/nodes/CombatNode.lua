@@ -1,14 +1,17 @@
 local BaseNode = require("maps.nodes.BaseNode")
-local CombatNode = BaseNode:extend()
 
-function CombatNode:new(floor, x, y)
-    self.super.new(self, "combat", floor, x, y)
+local CombatNode = {}
+
+function CombatNode.new(floor, x, y)
+    local self = BaseNode.new("combat", floor, x, y)
     self.enemyType = "normal"
-    self.size = 50
+    self.size = 20
+    return self
 end
 
 function CombatNode:draw()
-    -- Color based on enemy enemyType
+    local posx = self.x * 100 + 200
+    local posy = self.y * 100
     if self.enemyType == "normal" then
         love.graphics.setColor(0, 0, 1)
     end
@@ -19,13 +22,12 @@ function CombatNode:draw()
         love.graphics.setColor(1, 0, 1)
     end
 
-    -- Draw Node cicle
-    love.graphics.circle("fill", self.x, self.y, self.size)
+    love.graphics.circle("fill", posx, posy, self.size)
 
     if self.visited then
         love.graphics.setColor(1, 1, 1, 0.5)
         love.graphics.setLineWidth(3)
-        love.graphics.circle("line", self.x, self.y, self.size)
+        love.graphics.circle("line", posx, posy, self.size)
     end
     love.graphics.setColor(1, 1, 1, 1)
 end

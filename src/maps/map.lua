@@ -16,24 +16,25 @@ local Map = {
 
     -- Add node at position
     addNode = function(self, x, y, nodeType)
-        self.nodes[y][x] = {
-            type = nodeType,
-            x = x,
-            y = y,
-            visited = false,
-            content = {}
-        }
+        local newNode = nodeType.new(1, x, y)
+        newNode.draw = function(node) nodeType.draw(node) end
+        self.nodes[y][x] = newNode
     end,
+
     -- Draw map to screen
     drawMap = function(self)
         for y = self.height, 1, -1 do
-            for x = 1, self.width do
-                if self.nodes[x][y] then
-                    love.graphics.setColor(1, 0, 0)
+            if self.nodes[y] then
+                for x = 1, self.width do
+                    if self.nodes[y][x] then
+                        local node = self.nodes[y][x]
+                        love.graphics.setColor(1, 0, 0)
+                        node:draw()
+                    end
                 end
-                love.graphics.setColor(1, 1, 1)
             end
         end
+        love.graphics.setColor(1, 1, 1)
     end
 }
 return Map

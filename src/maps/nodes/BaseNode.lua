@@ -1,13 +1,14 @@
-local Object = require("lib.classic")
-local Node = Object:extend()
+local BaseNode = {}
 
-function Node:new(type, floor, x, y)
+function BaseNode.new(type, floor, x, y)
+    local self = {}
     self.type = type
     self.floor = floor
     self.x = x
     self.y = y
     self.visited = false
     self.connections = {}
+    return self
 end
 
-return Node
+return BaseNode
