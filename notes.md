@@ -11,9 +11,16 @@
 * Figure out how to make the map.
     * Grid system for map.
     * Nodes for rooms.
+    * Need to make Nodes/ Rooms clickeble.
 * Add status effects like, streght, weak, poison, dexterity, frail...
 
 # Updates
+
+* 15.02.26 --Version 008
+    Nodes are now drawn in the correct place. Got help from AI to class
+    figure it out. Aparrently I could not use the classic.lua to create
+    nodes as Objects, I needed to make the nodes in "pure" lua else the 
+    last node would overwright the earlier nodes.
 
 * 13.02.26 --Version 008
     Started on Map system, created BaseNode.lua and CombatNode.lua.
