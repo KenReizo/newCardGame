@@ -24,8 +24,11 @@
     The map.lua is responible for making the buttons 
     any new nodes just needs to have a trigger() for the button 
     to work.
+
     I have also made a functions in Input.lua that checks if mouse
     is with inn a circle.
+
+    Created a rudamentaly map generator (Currently only has CombatNode)
 
 * 15.02.26 --Version 008
     Nodes are now drawn in the correct place. Got help from AI to class

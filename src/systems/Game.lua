@@ -43,25 +43,66 @@ function Game:new()
     self.cpuEndTurn = false
     self.round = 0
     self.cpuEndTime = 0
+    self.hasMap = nil
+end
+
+function Game:createMap(w, h)
+    if Game.hasMap == nil then
+        if w and h then
+            Game.map:init(w, h)
+        else
+            Game.map:init()
+        end
+        local nodeY
+        local nodeX
+        for y = 1, Game.map.height do
+            RandomNumber = math.random(0, 1)
+            if RandomNumber == 1 then
+                nodeY = y
+                if nodeX == nil then
+                    nodeX = math.random(1, Game.map.width)
+                end
+            end
+            for x = 1, Game.map.width do
+                RandomNumber = math.random(0, 1)
+                if RandomNumber == 1 then
+                    nodeX = x
+                    if nodeY == nil then
+                        nodeY = math.random(1, Game.map.height)
+                    end
+                end
+            end
+            if nodeX and nodeY then
+                Game.map:addNode(nodeX, nodeY, CombatNode)
+            else
+                print("Error: nodeX = " ..
+                    nodeX ..
+                    " nodeY = " .. nodeY .. "Map.width = " .. Game.map.width .. "Map.height = " .. Game.map.height)
+            end
+        end
+        Game.hasMap = true
+    end
 end
 
 function Game:load()
+    Game.map = Map
     Player:new()
     Enemy:new()
-    Game.map = Map
-    Game.map:init()
-    Game.map:addNode(1, 1, CombatNode)
-    Game.map:addNode(7, 7, CombatNode)
-    Game.map:addNode(3, 6, CombatNode)
-    Game.map:addNode(1, 5, CombatNode)
+
+    -- Game.map = Map
+    -- Game.map:init()
+    -- Game.map:addNode(1, 1, CombatNode)
+    -- Game.map:addNode(7, 7, CombatNode)
+    -- Game.map:addNode(3, 6, CombatNode)
+    -- Game.map:addNode(1, 5, CombatNode)
 end
 
 function Game:update()
     if self.Stage == Game.Stages.MainMenu then
-
+        Game.hasMap = nil
     end
     if self.Stage == Game.Stages.Map then
-
+        Game:createMap()
     end
     if self.Stage == Game.Stages.DeckMenu then
 

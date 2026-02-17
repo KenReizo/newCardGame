@@ -23,6 +23,7 @@ function love.load()
 end
 
 function love.update()
+    RandomNumber = math.random(0, 1)
     Game:update()
     Input:update()
 end

@@ -8,7 +8,9 @@ local Map = {
     currentNode = nil,
 
     -- Initialize empty gridd
-    init = function(self)
+    init = function(self, w, h)
+        self.width = w or self.width
+        self.height = h or self.height
         for y = self.height, 1, -1 do
             self.nodes[y] = {}
             for x = 1, self.width do
