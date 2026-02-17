@@ -29,6 +29,7 @@
     is with inn a circle.
 
     Created a rudamentaly map generator (Currently only has CombatNode)
+    Added "Paths" between rooms, some ends in a dead end.
 
 * 15.02.26 --Version 008
     Nodes are now drawn in the correct place. Got help from AI to class

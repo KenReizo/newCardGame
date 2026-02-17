@@ -3,6 +3,7 @@ local Game = Object:extend()
 
 
 local Map = require("maps.map")
+local BaseNode = require("maps.nodes.BaseNode")
 local CombatNode = require("maps.nodes.CombatNode")
 
 local CM = require("systems.CardManager")
@@ -44,6 +45,51 @@ function Game:new()
     self.round = 0
     self.cpuEndTime = 0
     self.hasMap = nil
+end
+
+function Game:generateMap(w, h)
+    if Game.hasMap == nil then
+        Game.map:init(w, h)
+        -- Fills grid/ map with empty rooms
+        for width = 1, Game.map.width do
+            for floor = 1, Game.map.height do
+                Game.map:addNode(width, floor, BaseNode)
+            end
+        end
+        -- Adds and conects filled rooms
+        local prev_room = nil
+        for floor = 1, Game.map.height do
+            local width = math.random(1, Game.map.width)
+            local numberOfRooms = math.random(1, 3)
+            local room = { floor = floor, width = width }
+            if floor == 1 then
+                Game.map:addNode(room.width, room.floor, CombatNode)
+            elseif floor > 1 then
+                for i = numberOfRooms, 1, -1 do
+                    room.width = math.random(1, Game.map.width)
+                    Game.map:addNode(room.width, room.floor, CombatNode)
+                    if prev_room then
+                        Game.map:connectNodes(prev_room.floor,
+                            prev_room.width, room.floor, room.width)
+                    end
+                end
+            end
+            prev_room = room
+        end
+    end
+    -- Removes empty rooms
+    for floor = 1, Game.map.height do
+        if Game.map.nodes[floor] then
+            for width = 1, Game.map.width do
+                if Game.map.nodes[floor][width] then
+                    if Game.map.nodes[floor][width].type == BaseNode then
+                        Game.map.nodes[floor][width] = nil
+                    end
+                end
+            end
+        end
+    end
+    Game.hasMap = true
 end
 
 function Game:createMap(w, h)
@@ -102,7 +148,7 @@ function Game:update()
         Game.hasMap = nil
     end
     if self.Stage == Game.Stages.Map then
-        Game:createMap()
+        Game:generateMap()
     end
     if self.Stage == Game.Stages.DeckMenu then
 
