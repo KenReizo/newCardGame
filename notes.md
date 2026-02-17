@@ -11,10 +11,21 @@
 * Figure out how to make the map.
     * Grid system for map.
     * Nodes for rooms.
-    * Need to make Nodes/ Rooms clickeble.
+    * Make the rooms connect with a line that tells the player 
+        witch room the player can go to next.
+    * Make the map random.
 * Add status effects like, streght, weak, poison, dexterity, frail...
 
 # Updates
+
+* 17.02.26 --Version 008
+    Nodes in the map menu now have buttons that are clickeble have 
+    functions. 
+    The map.lua is responible for making the buttons 
+    any new nodes just needs to have a trigger() for the button 
+    to work.
+    I have also made a functions in Input.lua that checks if mouse
+    is with inn a circle.
 
 * 15.02.26 --Version 008
     Nodes are now drawn in the correct place. Got help from AI to class

@@ -1,3 +1,9 @@
+local function isMouseInCircle(circle_x, circle_y, circle_radius, mx, my)
+    local dx = mx - circle_x
+    local dy = my - circle_y
+    local distanceSquared = dx * dx * dy * dy
+    return distanceSquared <= circle_radius * circle_radius
+end
 local M = {}
 function M:update()
     function love.mousepressed(x, y, button)
@@ -26,6 +32,13 @@ function M:update()
                     x <= uiButton.x + uiButton.width and
                     y >= uiButton.y and
                     y <= uiButton.y + uiButton.height then
+                    uiButton.func()
+                end
+            end
+            for _, uiButton in ipairs(
+                UI.Buttons.NodeButtons) do
+                if isMouseInCircle(uiButton.x, uiButton.y,
+                        uiButton.radius, x, y) then
                     uiButton.func()
                 end
             end

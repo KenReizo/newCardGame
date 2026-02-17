@@ -43,7 +43,7 @@ function CombatNode:trigger()
 
     self.visited = true
 
-    Game:switchStage(Game.Stage.Combat)
+    Game:switchStage(Game.Stages.Combat)
 end
 
 return CombatNode

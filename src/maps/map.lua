@@ -1,3 +1,6 @@
+local Button = require("ui.button")
+local Buttons = require("ui.buttons")
+Buttons.NodeButtons = {}
 local Map = {
     width = 7,   --Columns
     height = 10, --Rows Level
@@ -18,6 +21,15 @@ local Map = {
     addNode = function(self, x, y, nodeType)
         local newNode = nodeType.new(1, x, y)
         newNode.draw = function(node) nodeType.draw(node) end
+        newNode.trigger = function(node) nodeType.trigger(node) end
+        newNode.button = Button(
+            "",
+            function() newNode:trigger() end,
+            20,
+            20,
+            20
+        )
+        table.insert(Buttons.NodeButtons, newNode.button)
         self.nodes[y][x] = newNode
     end,
 
@@ -30,6 +42,7 @@ local Map = {
                         local node = self.nodes[y][x]
                         love.graphics.setColor(1, 0, 0)
                         node:draw()
+                        node.button:drawCircle(x * 100 + 200, y * 100)
                     end
                 end
             end
