@@ -6,49 +6,67 @@
     Game.state and Game.Stage as args. 
     (Tried but the statemachine is continusly going on and dose not wait)
 
+
+
 ## Todo 
 * Pollis buttons to make it easier to create more buttons and to use them.
 * Figure out how to make the map.
     * Grid system for map.
     * Nodes for rooms.
     * Make the rooms connect with a line that tells the player 
-        witch room the player can go to next.
+        which room the player can go to next.
     * Make the map random.
 * Add status effects like, streght, weak, poison, dexterity, frail...
 
 # Updates
 
+* 18.02.26 --Version 008
+    Redesigend Game:generateMap(), shorter and more readble. 
+    Generartes a "node Path" 6 times all paths ends in one node. 
+    Nodes are not added if a node allready exists in that spot.
+    
+    nodes added to map now can only be in a range of max 1+ or 1- 
+    the previous node chosen at random. If the previous node is 
+    on the eage of the map then the new node can not be outside 
+    the map and instad gets a rage of max +2 or -2 depending on 
+    which side of the map the previous node is.
+
+    Tried to make it so nodes don't cross paths but is 
+    unsucessfull. Tried with help form AI but no luck.
+
 * 17.02.26 --Version 008
-    Nodes in the map menu now have buttons that are clickeble have 
-    functions. 
-    The map.lua is responible for making the buttons 
-    any new nodes just needs to have a trigger() for the button 
-    to work.
+    Nodes in the map menu now have buttons that are clickeble 
+    have functions. The map.lua is responible for making the 
+    buttons any new nodes just needs to have a trigger() for the 
+    button to work.
 
-    I have also made a functions in Input.lua that checks if mouse
-    is with inn a circle.
+    I have also made a functions in Input.lua that checks if 
+    mouse is with inn a circle.
 
-    Created a rudamentaly map generator (Currently only has CombatNode)
+    Created a rudamentaly map generator (Currently only has 
+    CombatNode)
     Added "Paths" between rooms, some ends in a dead end.
 
 * 15.02.26 --Version 008
-    Nodes are now drawn in the correct place. Got help from AI to class
-    figure it out. Aparrently I could not use the classic.lua to create
-    nodes as Objects, I needed to make the nodes in "pure" lua else the 
-    last node would overwright the earlier nodes.
+    Nodes are now drawn in the correct place. Got help from AI to
+    class figure it out. Aparrently I could not use the 
+    classic.lua to create nodes as Objects, I needed to make the 
+    nodes in "pure" lua else the last node would overwright the 
+    earlier nodes.
 
 * 13.02.26 --Version 008
-    Started on Map system, created BaseNode.lua and CombatNode.lua.
-    Map.lua need to be updated to make use of the draw functions
-    from the Nodes.
+    Started on Map system, created BaseNode.lua and 
+    CombatNode.lua. Map.lua need to be updated to make use of the 
+    draw functions from the Nodes.
 
 * 12.02.26 --Version 008
-    Replaced WINDOW_WIDTH and WINDOW_HEIGHT with Screen.width and Screen.height.
+    Replaced WINDOW_WIDTH and WINDOW_HEIGHT with Screen.width and 
+    Screen.height.
 
 * 10.02.26 --Version 008
-    I have splitt up the buttons into diffrent files coresponding to
-    there respective menus or where they are used. (Might need to 
-    work a bit more on it so it's easier to make more buttons.)
+    I have splitt up the buttons into diffrent files coresponding 
+    to there respective menus or where they are used. (Might need 
+    to work a bit more on it so it's easier to make more buttons.)
 
 * 09.02.26 
     Done some cleen up. Have moved most of what was in main.lua to 

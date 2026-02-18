@@ -33,17 +33,19 @@ function CombatNode:draw()
 end
 
 function CombatNode:trigger()
-    if self.enemyType == "normal" then
-        Enemy:new()
-    elseif self.enemyType == "elite" then
-        Enemy:new()
-    elseif self.enemyType == "boss" then
-        Enemy:new()
+    if not self.visited then
+        if self.enemyType == "normal" then
+            Enemy:new()
+        elseif self.enemyType == "elite" then
+            Enemy:new()
+        elseif self.enemyType == "boss" then
+            Enemy:new()
+        end
+
+        self.visited = true
+
+        Game:switchStage(Game.Stages.Combat)
     end
-
-    self.visited = true
-
-    Game:switchStage(Game.Stages.Combat)
 end
 
 return CombatNode

@@ -74,8 +74,15 @@ function M:update()
         if key == "space" then
             Game.endTurn = true
         end
-        if key == "m" then
+        if key == "c" then
             Game.cpuEndTurn = true
+        end
+        if key == "m" then
+            if Game.Stage == Game.Stages.Combat then
+                Game.Stage = Game.Stages.Map
+            elseif Game.Stage == Game.Stages.Map then
+                Game.Stage = Game.Stages.Combat
+            end
         end
     end
 end
