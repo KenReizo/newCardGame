@@ -23,6 +23,14 @@
     * Backgrounds
 
 # Updates
+* 19.02.26 --Version 008
+    Map nodes do not cross each other if there are 2 iterations.
+    If there are more iterations then they can cross. 
+
+    I think it's beacuse we only check against one iteration at 
+    a time. So if there are 5 iterations and we are on the 5 
+    iteration and checking the 2 iter and find a legal move,
+    then that move is chosen and the later iter is not checked.
 
 * 18.02.26 --Version 008
     Redesigend Game:generateMap(), shorter and more readble. 

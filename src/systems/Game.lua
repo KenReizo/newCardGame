@@ -47,31 +47,25 @@ function Game:new()
     self.hasMap = nil
 end
 
-local function canConnect(floor, width, prev_width, existing_rooms, current_iter)
-    if not prev_width then return true end
-    -- Check previous iterations
-    for iter = 1, #existing_rooms do
-        for check_floor = floor - 1, floor + 1 do
-            if existing_rooms[iter] and existing_rooms[iter][check_floor] then
-                for w, room in pairs(existing_rooms[iter][check_floor]) do
-                    if (prev_width < width and w > prev_width and w < width) or
-                        (prev_width > width and w > width and w < prev_width) then
-                        return false
-                    end
+local function canConnect(current_floor, current_width, prev_room, existing_rooms, current_iter)
+    for past_iter, _ in ipairs(existing_rooms) do
+        if past_iter ~= current_iter then
+            local prev_floor = current_floor + 1
+            local current_room_w = current_width
+            if past_iter > 0 then
+                local past_room_w = existing_rooms[past_iter][current_floor].width
+                local past_prev_room_w = existing_rooms[past_iter][prev_floor].width
+                local prev_room_w = prev_room.width
+                if (current_room_w >= past_room_w and
+                        prev_room_w >= past_prev_room_w) or
+                    (current_room_w <= past_room_w and
+                        prev_room_w <= past_prev_room_w) then
+                    return true
                 end
             end
         end
     end
-    -- Check current iteration's already-placed rooms on this floor
-    if current_iter and current_iter[floor] then
-        for w, room in pairs(current_iter[floor]) do
-            if (prev_width < width and w > prev_width and w < width) or
-                (prev_width > width and w > width and w < prev_width) then
-                return false
-            end
-        end
-    end
-    return true
+    return false
 end
 
 function Game:generateMap(w, h)
@@ -92,14 +86,11 @@ function Game:generateMap(w, h)
                 iteration_rooms[i][floor] = {}
 
                 local width = math.random(1, Game.map.width)
-
-                -- This dose not work as intended.
-                while prev_room and not canConnect(floor, width, prev_room.width, iteration_rooms, iteration_rooms[i]) do
-                    width = math.random(1, Game.map.width)
-                end
-
-                local current_max_width = width
+                local room = { floor = floor, width = width }
+                local current_max_width = Game.map.width
                 local current_min_width = 1
+
+
 
                 -- Find neighbor nodes on the width line and set there width's as min and max
                 -- prev_room has to be between these to nodes or outside of them
@@ -113,10 +104,16 @@ function Game:generateMap(w, h)
                     else
                         width = r
                     end
+                    room.width = width
+
+                    if i ~= 1 and floor ~= Game.map.height then
+                        while prev_room and not canConnect(floor, width,
+                                prev_room, iteration_rooms, i) do
+                            width = math.random(1, Game.map.width)
+                        end
+                    end
                 end
-
-                local room = { floor = floor, width = width }
-
+                room.width = width
 
                 if floor == 1 then
                     room.width = math.floor(Game.map.width / 2)
@@ -125,8 +122,8 @@ function Game:generateMap(w, h)
                     goto continue
                 end
                 Game.map:addNode(room.width, room.floor, CombatNode)
-                iteration_rooms[i][room.floor][room.width] = room
                 ::continue ::
+                iteration_rooms[i][room.floor] = room
                 if prev_room then
                     Game.map:connectNodes(
                         room.floor, room.width,
@@ -139,17 +136,17 @@ function Game:generateMap(w, h)
         end
     end
     -- Removes empty rooms
-    for floor = 1, Game.map.height do
-        if Game.map.nodes[floor] then
-            for width = 1, Game.map.width do
-                if Game.map.nodes[floor][width] then
-                    if Game.map.nodes[floor][width].type == BaseNode then
-                        Game.map.nodes[floor][width] = nil
-                    end
-                end
-            end
-        end
-    end
+    -- for floor = 1, Game.map.height do
+    --     if Game.map.nodes[floor] then
+    --         for width = 1, Game.map.width do
+    --             if Game.map.nodes[floor][width] then
+    --                 if Game.map.nodes[floor][width].type == BaseNode then
+    --                     Game.map.nodes[floor][width] = nil
+    --                 end
+    --             end
+    --         end
+    --     end
+    -- end
     Game.hasMap = true
 end
 

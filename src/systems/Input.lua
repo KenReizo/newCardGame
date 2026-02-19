@@ -77,6 +77,10 @@ function M:update()
         if key == "c" then
             Game.cpuEndTurn = true
         end
+        if key == "n" then
+            Game.hasMap = nil
+            Game:generateMap()
+        end
         if key == "m" then
             if Game.Stage == Game.Stages.Combat then
                 Game.Stage = Game.Stages.Map
