@@ -56,16 +56,17 @@ local function canConnect(current_floor, current_width, prev_room, existing_room
                 local past_room_w = existing_rooms[past_iter][current_floor].width
                 local past_prev_room_w = existing_rooms[past_iter][prev_floor].width
                 local prev_room_w = prev_room.width
-                if (current_room_w >= past_room_w and
+                local noCrossing = (current_room_w >= past_room_w and
                         prev_room_w >= past_prev_room_w) or
                     (current_room_w <= past_room_w and
-                        prev_room_w <= past_prev_room_w) then
-                    return true
+                        prev_room_w <= past_prev_room_w)
+                if not noCrossing then
+                    return false
                 end
             end
         end
     end
-    return false
+    return true
 end
 
 function Game:generateMap(w, h)
@@ -79,7 +80,7 @@ function Game:generateMap(w, h)
         end
         -- Adds and conects filled rooms
         local iteration_rooms = {}
-        for i = 1, 2 do
+        for i = 1, 6 do
             iteration_rooms[i] = {}
             local prev_room = nil
             for floor = Game.map.height, 1, -1 do

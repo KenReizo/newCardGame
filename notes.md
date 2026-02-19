@@ -8,10 +8,8 @@
 * Work on game loop system.
     * play should go to map and map to combat / room then back 
         to map.
-* Figure out how to make the map.
+* Work on Map
     * Create more nodes for rooms.
-    * Figure out how to prevent rooms to cross lines, when you 
-        have a moment to sitt down with pen and paper.
     * Create one map per Act(probably going to be 3 Acts)
 * Work on combat.
     * Add status effects like, streght, weak, poison, dexterity, 
@@ -31,6 +29,12 @@
     a time. So if there are 5 iterations and we are on the 5 
     iteration and checking the 2 iter and find a legal move,
     then that move is chosen and the later iter is not checked.
+
+    Have now updated canConnect() to go though all iter and
+    then return true. Did this by making the "if check" in to a
+    variable and doing if not noCrossing retun false. Then 
+    returning true at the end, insted of the first noCrossing
+    found.
 
 * 18.02.26 --Version 008
     Redesigend Game:generateMap(), shorter and more readble. 
