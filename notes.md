@@ -2,21 +2,25 @@
 * Keep as much as posible at one place, do not spread out over
     mutiple files if posible.
 
-* Put the statemachine in Game.lua into it's own function with 
-    Game.state and Game.Stage as args. 
-    (Tried but the statemachine is continusly going on and dose not wait)
-
-
-
 ## Todo 
-* Pollis buttons to make it easier to create more buttons and to use them.
+* Pollis buttons to make it easier to create more buttons and to 
+    use them.
+* Work on game loop system.
+    * play should go to map and map to combat / room then back 
+        to map.
 * Figure out how to make the map.
-    * Grid system for map.
-    * Nodes for rooms.
-    * Make the rooms connect with a line that tells the player 
-        which room the player can go to next.
-    * Make the map random.
-* Add status effects like, streght, weak, poison, dexterity, frail...
+    * Create more nodes for rooms.
+    * Figure out how to prevent rooms to cross lines, when you 
+        have a moment to sitt down with pen and paper.
+    * Create one map per Act(probably going to be 3 Acts)
+* Work on combat.
+    * Add status effects like, streght, weak, poison, dexterity, 
+        frail...
+* Make more enemies
+* Make artworks 
+    * Enemy sprites, player sprite
+    * Buttons?
+    * Backgrounds
 
 # Updates
 

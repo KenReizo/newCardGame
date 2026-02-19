@@ -92,38 +92,27 @@ function Game:generateMap(w, h)
                 iteration_rooms[i][floor] = {}
 
                 local width = math.random(1, Game.map.width)
+
+                -- This dose not work as intended.
                 while prev_room and not canConnect(floor, width, prev_room.width, iteration_rooms, iteration_rooms[i]) do
                     width = math.random(1, Game.map.width)
                 end
 
-                --local current_max_width = width
-                --local current_min_width = 1
+                local current_max_width = width
+                local current_min_width = 1
 
                 -- Find neighbor nodes on the width line and set there width's as min and max
                 -- prev_room has to be between these to nodes or outside of them
                 if prev_room then
-                    -- for iteration = 1, #iteration_rooms do
-                    --     for j = 1, Game.map.width do
-                    --         if iteration_rooms[iteration][floor][j] then
-                    --             local past_rooms = iteration_rooms[iteration][floor]
-                    --             if prev_room.width > past_rooms[j].width then
-                    --                 current_min_width = j
-                    --             elseif prev_room.width < past_rooms[j].width then
-                    --                 current_max_width = j
-                    --             end
-                    --         end
-                    --     end
-                    -- end
-
-                    -- local r = math.random(prev_room.width - 1,
-                    --     prev_room.width + 1)
-                    -- if r >= Game.map.width then
-                    --     width = math.random(prev_room.width - 2, current_max_width)
-                    -- elseif r <= 1 then
-                    --     width = math.random(current_min_width, prev_room.width + 2)
-                    -- else
-                    --     width = r
-                    -- end
+                    local r = math.random(prev_room.width - 1,
+                        prev_room.width + 1)
+                    if r >= Game.map.width then
+                        width = math.random(prev_room.width - 2, current_max_width)
+                    elseif r <= 1 then
+                        width = math.random(current_min_width, prev_room.width + 2)
+                    else
+                        width = r
+                    end
                 end
 
                 local room = { floor = floor, width = width }
