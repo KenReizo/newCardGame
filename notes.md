@@ -21,6 +21,9 @@
     * Backgrounds
 
 # Updates
+
+* 20.02.26 --Version 008
+    Created EliteCombatNode and BossCmbatNode, started on RestNode.
 * 19.02.26 --Version 008
     Map nodes do not cross each other if there are 2 iterations.
     If there are more iterations then they can cross. 

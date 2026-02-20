@@ -5,6 +5,8 @@ local Game = Object:extend()
 local Map = require("maps.map")
 local BaseNode = require("maps.nodes.BaseNode")
 local CombatNode = require("maps.nodes.CombatNode")
+local EliteCombatNode = require("maps.nodes.EliteCombatNode")
+local BossCombatNode = require("maps.nodes.BossCombatNode")
 
 local CM = require("systems.CardManager")
 local Player = require("entities.Player")
@@ -122,7 +124,13 @@ function Game:generateMap(w, h)
                 if Game.map.nodes[floor][width].type ~= BaseNode then
                     goto continue
                 end
-                Game.map:addNode(room.width, room.floor, CombatNode)
+                if floor == 4 then
+                    Game.map:addNode(room.width, room.floor, EliteCombatNode)
+                elseif floor == 1 then
+                    Game.map:addNode(room.width, room.floor, BossCombatNode)
+                else
+                    Game.map:addNode(room.width, room.floor, CombatNode)
+                end
                 ::continue ::
                 iteration_rooms[i][room.floor] = room
                 if prev_room then
