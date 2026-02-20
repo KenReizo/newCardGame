@@ -8,6 +8,7 @@ function BaseNode.new(type, floor, x, y)
     self.y = y
     self.pos_x = 0
     self.pos_y = 0
+    self.size = 20
     self.visited = false
     self.connections = {}
     return self

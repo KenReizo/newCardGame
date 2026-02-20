@@ -3,27 +3,56 @@
     mutiple files if posible.
 
 ## Todo 
-* Pollis buttons to make it easier to create more buttons and to 
-    use them.
+* [x] Pollis buttons to make it easier to create more buttons and to 
+    use them. (I think the current system will work fine)
 * Work on game loop system.
-    * play should go to map and map to combat / room then back 
+    - [ ] play should go to map and map to combat / room then back 
         to map.
-* Work on Map
-    * Create more nodes for rooms.
-    * Create one map per Act(probably going to be 3 Acts)
-* Work on combat.
-    * Add status effects like, streght, weak, poison, dexterity, 
-        frail...
 * Make more enemies
+    - [ ] Need to make elites and bosses along whit more normal
+        enemies.
+- Work on Map
+    - [x] Create more nodes for rooms.
+        (Have crated the basic rooms)
+    - [ ] Work on question mark rooms. 
+        (This is low priority for now)
+    - [ ] Flesh out the basic room nodes
+        - [ ] Normal CombatNode
+        - [ ] Elite CombatNode
+        - [ ] Boss CombatNode
+        - [ ] RestNode
+    - [ ] Create one map per Act (probably going to be 3 Acts)
+* Work on combat.
+    - [ ] Add status effects like, streght, weak, poison, dexterity, 
+        frail...
 * Make artworks 
-    * Enemy sprites, player sprite
-    * Buttons?
-    * Backgrounds
+    
+    - [x] Since this is a hobby /passion project, then maybe using
+        AI for art is accepteble.
+        (Turns out that most AI image
+        generators only do 1024x1024 which dose not go well for 
+        pixelart. The AI say i will have to downscale it my 
+        self which will ruin the image)
+    - [ ] Enemy sprites, player sprite
+    - [ ] Buttons?
+    - [ ] Backgrounds
 
 # Updates
 
 * 20.02.26 --Version 008
-    Created EliteCombatNode and BossCmbatNode, started on RestNode.
+    Created EliteCombatNode and BossCmbatNode. The only 
+    diffrence between them for now is that they are diffrent
+    collors on the map.(Need more enemies, elites and Bosses)
+
+    RestNode now heals player 25 HP and if HP > maxHP then 
+    HP == MAXHP. 
+
+    There are now nodes for all basic rooms exept for question 
+    mark rooms, wich are more complicated and not a priority for 
+    the moment. 
+    The funconality for the rooms are basic and needs to be 
+    expanded on.
+
 * 19.02.26 --Version 008
     Map nodes do not cross each other if there are 2 iterations.
     If there are more iterations then they can cross. 

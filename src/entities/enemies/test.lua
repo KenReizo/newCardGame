@@ -5,8 +5,9 @@ function Enemy:new()
     self.super.new(self)
     self.x = 0
     self.y = 0
-    self.width = 50
-    self.height = 50
+    self.image = love.graphics.newImage("assets/Slime_Enemy_Green.jpeg")
+    self.width = self.image.getWidth(self.image)
+    self.height = self.image.getHeight(self.image)
     self.MAX_HP = 50
     self.HP = self.MAX_HP
     self.Attack = math.random(5, 20)
@@ -39,6 +40,7 @@ function Enemy:draw(x, y)
     if self.alive then
         love.graphics.setColor(0, 1, 0)
         love.graphics.rectangle("fill", x, y, 50, 50)
+        -- love.graphics.draw(self.image, x, y)
         love.graphics.setColor(1, 1, 1)
         Enemy:drawHealthBar(x - 25, y + 60)
         love.graphics.print(

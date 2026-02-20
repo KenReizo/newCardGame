@@ -28,6 +28,7 @@ function CombatNode:draw()
         love.graphics.setColor(1, 1, 1, 0.5)
         love.graphics.setLineWidth(3)
         love.graphics.circle("line", posx, posy, self.size)
+        love.graphics.setLineWidth(1)
     end
     love.graphics.setColor(1, 1, 1, 1)
 end

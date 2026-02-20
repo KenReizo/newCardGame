@@ -7,6 +7,7 @@ local BaseNode = require("maps.nodes.BaseNode")
 local CombatNode = require("maps.nodes.CombatNode")
 local EliteCombatNode = require("maps.nodes.EliteCombatNode")
 local BossCombatNode = require("maps.nodes.BossCombatNode")
+local RestNode = require("maps.nodes.RestNode")
 
 local CM = require("systems.CardManager")
 local Player = require("entities.Player")
@@ -128,6 +129,8 @@ function Game:generateMap(w, h)
                     Game.map:addNode(room.width, room.floor, EliteCombatNode)
                 elseif floor == 1 then
                     Game.map:addNode(room.width, room.floor, BossCombatNode)
+                elseif floor == 3 then
+                    Game.map:addNode(room.width, room.floor, RestNode)
                 else
                     Game.map:addNode(room.width, room.floor, CombatNode)
                 end

@@ -34,7 +34,7 @@ local Map = {
             20
         )
         newNode.pos_x = x * 100 + 200
-        newNode.pos_Y = y * 100
+        newNode.pos_y = y * 100
         newNode.type = nodeType
         table.insert(Buttons.NodeButtons, newNode.button)
         self.nodes[y][x] = newNode
@@ -78,9 +78,9 @@ local Map = {
                                 love.graphics.setColor(0.5, 0.5, 0.5) -- gray line
                                 love.graphics.line(
                                     node.pos_x,
-                                    node.pos_Y,
+                                    node.pos_y,
                                     connectedNode.pos_x,
-                                    connectedNode.pos_Y
+                                    connectedNode.pos_y
                                 )
                             end
                         end
