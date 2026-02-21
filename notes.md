@@ -1,6 +1,9 @@
 # Ideas
 * Keep as much as posible at one place, do not spread out over
     mutiple files if posible.
+* On ThinkPad laptop the markdown previewe pluggin is broken.
+    Have temprary made a status vriable in markdown.lua in 
+    nvim configs to prevent error massages.
 
 ## Todo 
 * [x] Pollis buttons to make it easier to create more buttons and to 
@@ -25,8 +28,13 @@
 * Work on combat.
     - [ ] Add status effects like, streght, weak, poison, dexterity, 
         frail...
+* Camera. There is a Camera Module in an older github project.
+    (I think it in the Rouge game)
+    - [ ] Get a working camera running.
+    - [ ] Look into scaling /Zooming whit camera.
+    - [ ] Make the Map menu Scrolleble. (Probably done whit camera) 
+
 * Make artworks 
-    
     - [x] Since this is a hobby /passion project, then maybe using
         AI for art is accepteble.
         (Turns out that most AI image
@@ -38,6 +46,15 @@
     - [ ] Backgrounds
 
 # Updates
+
+* 21.02.26 --Version 008
+    Created a sprite for a slime enemy, it's a little to small
+    Image size is 64x64. Unless we intend to scale up the 
+    sprites we need bigger sprites.
+
+    Added anim8 Module to lib/. Wanted to use it for sprits 
+    from the Fantasy Creature Pack I Downloded. Didn't get 
+    it to work though. (Need to look into how to use it.)
 
 * 20.02.26 --Version 008
     Created EliteCombatNode and BossCmbatNode. The only 

@@ -1,3 +1,4 @@
+local anim8 = require("lib.anim8")
 local Entity = require("entities.Entity")
 local Enemy = Entity:extend()
 
@@ -5,7 +6,12 @@ function Enemy:new()
     self.super.new(self)
     self.x = 0
     self.y = 0
-    self.image = love.graphics.newImage("assets/Slime_Enemy_Green.jpeg")
+    --self.sprite_sheect = love.graphics.newImage("assets/Monster_Creatures_Fantasy/Goblin/Attack3.png")
+    -- self.image = anim8.newGrid(12, 1,
+    --     self.sprite_sheect:getHeight(),
+    --     self.sprite_sheect:getWidth()
+    -- )
+    self.image = love.graphics.newImage("assets/Slime_Enemy_Green.png")
     self.width = self.image.getWidth(self.image)
     self.height = self.image.getHeight(self.image)
     self.MAX_HP = 50
@@ -39,8 +45,8 @@ end
 function Enemy:draw(x, y)
     if self.alive then
         love.graphics.setColor(0, 1, 0)
-        love.graphics.rectangle("fill", x, y, 50, 50)
-        -- love.graphics.draw(self.image, x, y)
+        -- love.graphics.rectangle("fill", x, y, 50, 50)
+        love.graphics.draw(self.image, x, y)
         love.graphics.setColor(1, 1, 1)
         Enemy:drawHealthBar(x - 25, y + 60)
         love.graphics.print(
