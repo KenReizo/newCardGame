@@ -25,6 +25,7 @@ local RestNode = {
             Player.HP = Player.MAX_HP
         end
         self.visited = true
+        Game.map.currentNode = self
     end
 }
 return RestNode

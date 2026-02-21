@@ -3,7 +3,7 @@ Card = require("cards.Card")
 CM = require("systems.CardManager")
 Game = require("systems.Game")
 Player = require("entities.Player")
-Enemy = require("entities.enemies.test")
+Enemy = require("entities.enemies.Slime_Enemy_Green")
 UI = require("systems.UI")
 
 function M.debugPrint()

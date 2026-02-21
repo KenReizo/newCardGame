@@ -11,7 +11,10 @@ local RestNode = require("maps.nodes.RestNode")
 
 local CM = require("systems.CardManager")
 local Player = require("entities.Player")
-local Enemy = require("entities.enemies.test")
+local Enemies = {}
+Enemies.Slime = require("entities.enemies.Slime_Enemy_Green")
+Enemies.Elite = require("enemies.Elite_Enemy_Test")
+
 
 
 
@@ -89,8 +92,9 @@ function Game:generateMap(w, h)
             for floor = Game.map.height, 1, -1 do
                 iteration_rooms[i][floor] = {}
 
+                local added_room
                 local width = math.random(1, Game.map.width)
-                local room = { floor = floor, width = width }
+                local room = { floor = floor, width = width, type = nil }
                 local current_max_width = Game.map.width
                 local current_min_width = 1
 
@@ -125,14 +129,29 @@ function Game:generateMap(w, h)
                 if Game.map.nodes[floor][width].type ~= BaseNode then
                     goto continue
                 end
-                if floor == 4 then
-                    Game.map:addNode(room.width, room.floor, EliteCombatNode)
+                RandomNumber = math.random(1, 4)
+                if floor < Game.map.height - 3 and floor ~= 3 and RandomNumber == 1 then
+                    if prev_room and prev_room.type ~= EliteCombatNode then
+                        Game.map:addNode(room.width, room.floor, EliteCombatNode)
+                        room.type = EliteCombatNode
+                    elseif not prev_room then
+                        Game.map:addNode(room.width, room.floor, EliteCombatNode)
+                        room.type = EliteCombatNode
+                    end
                 elseif floor == 1 then
                     Game.map:addNode(room.width, room.floor, BossCombatNode)
+                    room.type = BossCombatNode
                 elseif floor == 3 then
                     Game.map:addNode(room.width, room.floor, RestNode)
+                    room.type = RestNode
+                elseif floor <= Game.map.height - 3 and RandomNumber == 1 then
+                    if prev_room and prev_room.type ~= RestNode then
+                        Game.map:addNode(room.width, room.floor, RestNode)
+                        room.type = RestNode
+                    end
                 else
                     Game.map:addNode(room.width, room.floor, CombatNode)
+                    added_room = CombatNode
                 end
                 ::continue ::
                 iteration_rooms[i][room.floor] = room
@@ -148,69 +167,25 @@ function Game:generateMap(w, h)
         end
     end
     -- Removes empty rooms
-    -- for floor = 1, Game.map.height do
-    --     if Game.map.nodes[floor] then
-    --         for width = 1, Game.map.width do
-    --             if Game.map.nodes[floor][width] then
-    --                 if Game.map.nodes[floor][width].type == BaseNode then
-    --                     Game.map.nodes[floor][width] = nil
-    --                 end
-    --             end
-    --         end
-    --     end
-    -- end
-    Game.hasMap = true
-end
-
-function Game:createMap(w, h)
-    if Game.hasMap == nil then
-        if w and h then
-            Game.map:init(w, h)
-        else
-            Game.map:init()
-        end
-        local nodeY
-        local nodeX
-        for y = 1, Game.map.height do
-            RandomNumber = math.random(0, 1)
-            if RandomNumber == 1 then
-                nodeY = y
-                if nodeX == nil then
-                    nodeX = math.random(1, Game.map.width)
-                end
-            end
-            for x = 1, Game.map.width do
-                RandomNumber = math.random(0, 1)
-                if RandomNumber == 1 then
-                    nodeX = x
-                    if nodeY == nil then
-                        nodeY = math.random(1, Game.map.height)
+    for floor = 1, Game.map.height do
+        if Game.map.nodes[floor] then
+            for width = 1, Game.map.width do
+                if Game.map.nodes[floor][width] then
+                    if Game.map.nodes[floor][width].type == BaseNode then
+                        Game.map.nodes[floor][width] = nil
                     end
                 end
             end
-            if nodeX and nodeY then
-                Game.map:addNode(nodeX, nodeY, CombatNode)
-            else
-                print("Error: nodeX = " ..
-                    nodeX ..
-                    " nodeY = " .. nodeY .. "Map.width = " .. Game.map.width .. "Map.height = " .. Game.map.height)
-            end
         end
-        Game.hasMap = true
     end
+    Game.hasMap = true
 end
 
 function Game:load()
     Game.map = Map
     Player:new()
-    Enemy:new()
-
-    -- Game.map = Map
-    -- Game.map:init()
-    -- Game.map:addNode(1, 1, CombatNode)
-    -- Game.map:addNode(7, 7, CombatNode)
-    -- Game.map:addNode(3, 6, CombatNode)
-    -- Game.map:addNode(1, 5, CombatNode)
+    Enemies.Slime:new()
+    Enemies.Elite:new()
 end
 
 function Game:update()
@@ -225,6 +200,16 @@ function Game:update()
     end
     if self.Stage == Game.Stages.Combat then
         Player:update()
+        if not Game.Enemy then
+            if Game.map.currentNode == CombatNode then
+                Game.Enemy = Enemies.Slime
+                print("Hello Slime")
+            elseif Game.map.currentNode == EliteCombatNode then
+                Game.Enemy = Enemies.Elite
+            elseif Game.map.currentNode == BossCombatNode then
+            end
+        end
+
         Enemy:update()
         CM.update()
         if self.State == Game.States.CombatStart then

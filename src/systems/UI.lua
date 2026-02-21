@@ -2,6 +2,7 @@ local M = {}
 
 CM = require("systems.CardManager")
 
+Game = require("systems.Game")
 M.Buttons = require("ui.buttons")
 
 function M.DrawMainMenu()
@@ -44,7 +45,9 @@ function M.DrawCombatUI()
     -- Draws Player and enemy sprites
     if Game.Stage == Game.Stages.Combat then
         Player:draw(Screen.width * 0.15, Screen.height / 2)
-        Enemy:draw(Screen.width * 0.8, Screen.height / 2)
+        if Game.Enemy then
+            Game.Enemy:draw(Screen.width * 0.8, Screen.height / 2)
+        end
     end
     -- End Turn Button
     M.Buttons.CombatButtonsImport.EndTurn:draw(Screen.width * 0.6, Screen.height * 0.8)

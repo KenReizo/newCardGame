@@ -8,7 +8,10 @@ local EliteCombatNode = {
         return self
     end,
     draw = function(self) CombatNode.draw(self) end,
-    trigger = function(self) CombatNode.trigger(self) end
+    trigger = function(self)
+        self.visited = true
+        CombatNode.trigger(self)
+    end
 }
 
 return EliteCombatNode

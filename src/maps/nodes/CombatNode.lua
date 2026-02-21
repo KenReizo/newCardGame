@@ -35,16 +35,8 @@ end
 
 function CombatNode:trigger()
     if not self.visited then
-        if self.enemyType == "normal" then
-            Enemy:new()
-        elseif self.enemyType == "elite" then
-            Enemy:new()
-        elseif self.enemyType == "boss" then
-            Enemy:new()
-        end
-
         self.visited = true
-
+        Game.map.currentNode = self
         Game:switchStage(Game.Stages.Combat)
     end
 end

@@ -12,8 +12,9 @@
     - [ ] play should go to map and map to combat / room then back 
         to map.
 * Make more enemies
-    - [ ] Need to make elites and bosses along whit more normal
+    - [x] Need to make elites and bosses along whit more normal
         enemies.
+    - [ ] Might have to work on the diffrent enemy files.
 - Work on Map
     - [x] Create more nodes for rooms.
         (Have crated the basic rooms)
@@ -55,6 +56,13 @@
     Added anim8 Module to lib/. Wanted to use it for sprits 
     from the Fantasy Creature Pack I Downloded. Didn't get 
     it to work though. (Need to look into how to use it.)
+
+    Started to work on the diffrent CombatNode's and trying 
+    to get the right enemy to show up when entering a room.
+    Added Elite Enemy and an Boss enemy (No art). Cleen up 
+    Game.lua a bit by deleting createMap(). (We are using
+    generateMap()). Having a bitt off a problem drawing
+    the right enemy.
 
 * 20.02.26 --Version 008
     Created EliteCombatNode and BossCmbatNode. The only 
