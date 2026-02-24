@@ -1,9 +1,6 @@
 # Ideas
 * Keep as much as posible at one place, do not spread out over
     mutiple files if posible.
-* On ThinkPad laptop the markdown previewe pluggin is broken.
-    Have temprary made a status vriable in markdown.lua in 
-    nvim configs to prevent error massages.
 
 ## Todo 
 * [x] Pollis buttons to make it easier to create more buttons and to 
