@@ -1,7 +1,6 @@
 local Object = require("lib.classic")
 local Game = Object:extend()
 
-
 local Map = require("maps.map")
 local BaseNode = require("maps.nodes.BaseNode")
 local CombatNode = require("maps.nodes.CombatNode")
@@ -15,9 +14,6 @@ local Enemies = {}
 Enemies.Slime = require("entities.enemies.Slime_Enemy_Green")
 Enemies.Elite = require("enemies.Elite_Enemy_Test")
 
-
-
-
 Game.SiteType = {
     NormalCombat = "NormalCombat",
     EliteCombat = "EliteCombat",
@@ -30,7 +26,6 @@ Game.Stages = {
     Combat = "Combat",
     DeckMenu = "DeckMenu",
     Options = "Options"
-
 }
 
 Game.States = {
@@ -91,14 +86,10 @@ function Game:generateMap(w, h)
             local prev_room = nil
             for floor = Game.map.height, 1, -1 do
                 iteration_rooms[i][floor] = {}
-
-                local added_room
                 local width = math.random(1, Game.map.width)
                 local room = { floor = floor, width = width, type = nil }
                 local current_max_width = Game.map.width
                 local current_min_width = 1
-
-
 
                 -- Find neighbor nodes on the width line and set there width's as min and max
                 -- prev_room has to be between these to nodes or outside of them
@@ -130,7 +121,7 @@ function Game:generateMap(w, h)
                     goto continue
                 end
                 RandomNumber = math.random(1, 4)
-                if floor < Game.map.height - 3 and floor ~= 3 and RandomNumber == 1 then
+                if floor < Game.map.height - 3 and floor ~= 3 and floor ~= 1 and RandomNumber == 1 then
                     if prev_room and prev_room.type ~= EliteCombatNode then
                         Game.map:addNode(room.width, room.floor, EliteCombatNode)
                         room.type = EliteCombatNode
@@ -151,7 +142,6 @@ function Game:generateMap(w, h)
                     end
                 else
                     Game.map:addNode(room.width, room.floor, CombatNode)
-                    added_room = CombatNode
                 end
                 ::continue ::
                 iteration_rooms[i][room.floor] = room
