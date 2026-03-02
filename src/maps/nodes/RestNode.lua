@@ -24,8 +24,8 @@ local RestNode = {
         if Player.HP >= Player.MAX_HP then
             Player.HP = Player.MAX_HP
         end
-        self.visited = true
-        Game.map.currentNode = self
+        Game.map.nodes[self.y][self.x].visited = true
+        Game.map.currentNode = Game.map.nodes[self.y][self.x]
     end
 }
 return RestNode

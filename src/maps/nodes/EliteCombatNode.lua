@@ -1,17 +1,44 @@
-local CombatNode = require("maps.nodes.CombatNode")
+local BaseNode = require("maps.nodes.BaseNode")
 
-local EliteCombatNode = {
-    new = function(floor, x, y)
-        local self = CombatNode.new(floor, x, y)
-        self.enemyType = "elite"
+local EliteCombatNode = {}
 
-        return self
-    end,
-    draw = function(self) CombatNode.draw(self) end,
-    trigger = function(self)
-        self.visited = true
-        CombatNode.trigger(self)
+function EliteCombatNode.new(floor, x, y)
+    local self = BaseNode.new("combat", floor, x, y)
+    self.enemyType = "elite"
+    self.size = 20
+    return self
+end
+
+function EliteCombatNode:draw()
+    local posx = self.x * 100 + 200
+    local posy = self.y * 100
+    if self.enemyType == "normal" then
+        love.graphics.setColor(0, 0, 1)
     end
-}
+    if self.enemyType == "elite" then
+        love.graphics.setColor(1, 0, 0)
+    end
+    if self.enemyType == "boss" then
+        love.graphics.setColor(1, 0, 1)
+    end
+
+    love.graphics.circle("fill", posx, posy, self.size)
+
+    if self.visited then
+        love.graphics.setColor(1, 1, 1, 0.5)
+        love.graphics.setLineWidth(3)
+        love.graphics.circle("line", posx, posy, self.size)
+        love.graphics.setLineWidth(1)
+    end
+    love.graphics.setColor(1, 1, 1, 1)
+end
+
+function EliteCombatNode:trigger()
+    if not self.visited then
+        Game.map.nodes[self.y][self.x].visited = true
+        Game.map.currentNode = Game.map.nodes[self.y][self.x]
+        Game:switchStage(Game.Stages.Combat)
+    end
+end
 
 return EliteCombatNode

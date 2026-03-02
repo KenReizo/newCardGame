@@ -117,10 +117,11 @@ function Game:generateMap(w, h)
                 if floor == 1 then
                     room.width = math.floor(Game.map.width / 2)
                 end
-                if Game.map.nodes[floor][width].type ~= BaseNode then
+                ::continue ::
+                RandomNumber = math.random(1, 4)
+                if Game.map.nodes[floor][RandomNumber].type ~= BaseNode then
                     goto continue
                 end
-                RandomNumber = math.random(1, 4)
                 if floor < Game.map.height - 3 and floor ~= 3 and floor ~= 1 and RandomNumber == 1 then
                     if prev_room and prev_room.type ~= EliteCombatNode then
                         Game.map:addNode(room.width, room.floor, EliteCombatNode)
@@ -140,11 +141,11 @@ function Game:generateMap(w, h)
                         Game.map:addNode(room.width, room.floor, RestNode)
                         room.type = RestNode
                     end
-                else
+                elseif floor ~= 1 and floor ~= 3 then
                     Game.map:addNode(room.width, room.floor, CombatNode)
                 end
-                ::continue ::
                 iteration_rooms[i][room.floor] = room
+
                 if prev_room then
                     Game.map:connectNodes(
                         room.floor, room.width,
@@ -191,16 +192,16 @@ function Game:update()
     if self.Stage == Game.Stages.Combat then
         Player:update()
         if not Game.Enemy then
-            if Game.map.currentNode == CombatNode then
+            if Game.map.currentNode.type == CombatNode then
                 Game.Enemy = Enemies.Slime
-                print("Hello Slime")
-            elseif Game.map.currentNode == EliteCombatNode then
+            elseif Game.map.currentNode.type == EliteCombatNode then
                 Game.Enemy = Enemies.Elite
-            elseif Game.map.currentNode == BossCombatNode then
+            elseif Game.map.currentNode.type == BossCombatNode then
+                Game.Enemy = Enemies.Elite
             end
         end
 
-        Enemy:update()
+        Game.Enemy:update()
         CM.update()
         if self.State == Game.States.CombatStart then
             CM.deck = CM.createDeck()

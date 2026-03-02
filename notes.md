@@ -45,6 +45,16 @@
 
 # Updates
 
+* 02.03.26 --Version 008
+    Setting current node happens in the trigger func in the
+    diffrent nodes. Also updated tigger() to set node.visited for
+    the node in Game.map.
+
+    Redesigend EliteCombatNode and BossCmbatNode to inheret form
+    BaseNode BaseNode insted off CombatNode. I just copied the 
+    code form CombatNode and change the self.enemyType to 
+    "elite" or "boss".
+
 * 21.02.26 --Version 008
     Created a sprite for a slime enemy, it's a little to small
     Image size is 64x64. Unless we intend to scale up the 

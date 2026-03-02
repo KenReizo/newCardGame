@@ -35,6 +35,9 @@ function M.debugPrint()
 
         )
     end
+    if Game.Stage == Game.Stages.Map then
+        love.graphics.print("Number off nodes: " .. #Game.map.allNodes, 10, 114)
+    end
 end
 
 return M

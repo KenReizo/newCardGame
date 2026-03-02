@@ -35,8 +35,8 @@ end
 
 function CombatNode:trigger()
     if not self.visited then
-        self.visited = true
-        Game.map.currentNode = self
+        Game.map.nodes[self.y][self.x].visited = true
+        Game.map.currentNode = Game.map.nodes[self.y][self.x]
         Game:switchStage(Game.Stages.Combat)
     end
 end

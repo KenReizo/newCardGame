@@ -6,6 +6,7 @@ local Map = {
     width = 7,   --Columns
     height = 10, --Rows Level
     nodes = {},  --2D array: nodes[y][x]
+    allNodes = {},
     currentNode = nil,
 
 
