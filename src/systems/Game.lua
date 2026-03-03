@@ -31,6 +31,8 @@ Game.Stages = {
 Game.States = {
     PlayerTurn = "PlayerTurn",
     CPUTurn = "CPUTurn",
+    RoundStart = "RoundStart",
+    RoundEnd = "RoundEnd",
     CombatStart = "CombatStart",
     CombatEnd = "CombatEnd"
 }
@@ -190,7 +192,6 @@ function Game:update()
 
     end
     if self.Stage == Game.Stages.Combat then
-        Player:update()
         if not Game.Enemy then
             if Game.map.currentNode.type == CombatNode then
                 Game.Enemy = Enemies.Slime
@@ -201,13 +202,20 @@ function Game:update()
             end
         end
 
+        Player:update()
         Game.Enemy:update()
         CM.update()
+        if not Game.Enemy.alive then
+            self:toCombatEnd()
+        end
         if self.State == Game.States.CombatStart then
             CM.deck = CM.createDeck()
             CM.hand = {}
             CM.discardPile = {}
             CM.deck = CM.shuffledCopy(CM.deck)
+            self:toRoundStart()
+        end
+        if self.State == Game.States.RoundStart then
             self:toPlayerTurn()
         end
         if self.State == Game.States.PlayerTurn then
@@ -245,9 +253,14 @@ function Game:update()
                 self.cpuTurnStart = true
             end
         end
-        if self.State == Game.States.CombatEnd then
+        if self.State == Game.States.RoundEnd then
             self.round = 0
-            self:toCombatStart()
+            self:toRoundStart()
+        end
+        if self.State == Game.States.CombatEnd then
+            self.Stage = Game.Stages.Map
+            self.Enemy = nil
+            self.State = Game.States.CombatStart
         end
     end
 end
@@ -258,6 +271,14 @@ end
 
 function Game:toPlayerTurn()
     self.State = Game.States.PlayerTurn
+end
+
+function Game:toRoundStart()
+    self.State = Game.States.RoundStart
+end
+
+function Game:toRoundEnd()
+    self.State = Game.States.RoundEnd
 end
 
 function Game:toCombatStart()

@@ -14,7 +14,7 @@ function Enemy:new()
     self.image = love.graphics.newImage("assets/Slime_Enemy_Green.png")
     self.width = self.image.getWidth(self.image)
     self.height = self.image.getHeight(self.image)
-    self.MAX_HP = 50
+    self.MAX_HP = 10
     self.HP = self.MAX_HP
     self.Attack = math.random(5, 20)
     self.Block = math.random(5, 10)

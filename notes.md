@@ -3,34 +3,50 @@
     mutiple files if posible.
 
 ## Todo 
-* [x] Pollis buttons to make it easier to create more buttons and to 
-    use them. (I think the current system will work fine)
+
+* [x] Pollis buttons to make it easier to create more buttons and 
+    to use them. (I think the current system will work fine)
+
 * Work on game loop system.
     - [ ] play should go to map and map to combat / room then back 
         to map.
+    - [ ] Work on game loop code. 
+
 * Make more enemies
-    - [x] Need to make elites and bosses along whit more normal
+    - [ ] Need to make elites and bosses along with more normal
         enemies.
-    - [ ] Might have to work on the diffrent enemy files.
+
 - Work on Map
     - [x] Create more nodes for rooms.
         (Have crated the basic rooms)
     - [ ] Work on question mark rooms. 
         (This is low priority for now)
     - [ ] Flesh out the basic room nodes
-        - [ ] Normal CombatNode
-        - [ ] Elite CombatNode
-        - [ ] Boss CombatNode
-        - [ ] RestNode
+        - [x] Normal CombatNode
+        - [x] Elite CombatNode
+        - [x] Boss CombatNode
+        - [ ] RestNode: Make a screen for RestNode, where the
+            player can choose between diffrent options.
+            - [ ] Rest action.
+            - [ ] Remove a card form deck.
+            - [ ] Upgrade a card.            
     - [ ] Create one map per Act (probably going to be 3 Acts)
+    
+* Card system.
+    - [ ] Make it posible to upgrade cards. Maybe just add a 
+        upgraded "tag" to cards. and make a statment for if 
+        upgraded card.
+    - [ ] Make a way to veiwe Cards in Deck.
+
 * Work on combat.
-    - [ ] Add status effects like, streght, weak, poison, dexterity, 
-        frail...
+    - [ ] Add status effects like, streght, weak, poison, 
+        dexterity, frail...
+
 * Camera. There is a Camera Module in an older github project.
     (I think it in the Rouge game)
     - [ ] Get a working camera running.
     - [ ] Look into scaling /Zooming whit camera.
-    - [ ] Make the Map menu Scrolleble. (Probably done whit camera) 
+    - [ ] Make the Map menu Scrolleble. (Probably done whit camera)
 
 * Make artworks 
     - [x] Since this is a hobby /passion project, then maybe using
@@ -44,6 +60,14 @@
     - [ ] Backgrounds
 
 # Updates
+
+* 03.03.26 --Version 008
+    Added RoundStart and RoundEnd to Game.States. Tried to get game
+    loop to work, but after deafeting the first enemy I can't enter
+    an other combat room. I don't realy know why, it might be the 
+    enemy is not properly created again on entering the room.
+
+    Added stuff to todo list.
 
 * 02.03.26 --Version 008
     Setting current node happens in the trigger func in the
