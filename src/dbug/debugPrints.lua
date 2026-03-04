@@ -21,9 +21,10 @@ function M.debugPrint()
             10, 50)
     end
     love.graphics.print("Game State: " .. tostring(Game.State), 10, 60)
-    love.graphics.print("Round: " .. tostring(Game.round), 10, 70)
-    love.graphics.print("Enemy HP: " .. tostring(Enemy.HP), 10, 80)
-    love.graphics.print("Enemy HP_BAR: " .. tostring(Enemy.HP_BAR), 10, 90)
+    love.graphics.print("Game State: " .. tostring(Game.Stage), 10, 70)
+    love.graphics.print("Round: " .. tostring(Game.round), 10, 80)
+    love.graphics.print("Enemy HP: " .. tostring(Enemy.HP), 10, 90)
+    love.graphics.print("Enemy HP_BAR: " .. tostring(Enemy.HP_BAR), 10, 10)
     if UI.Buttons.EndTurnButton then
         love.graphics.print(
             UI.Buttons.EndTurnButton.text ..
@@ -31,12 +32,12 @@ function M.debugPrint()
             " Y: " .. UI.Buttons.EndTurnButton.y ..
             " Width: " .. UI.Buttons.EndTurnButton.width ..
             " Height: " .. UI.Buttons.EndTurnButton.height,
-            10, 104
+            10, 114
 
         )
     end
     if Game.Stage == Game.Stages.Map then
-        love.graphics.print("Number off nodes: " .. #Game.map.allNodes, 10, 114)
+        love.graphics.print("Number off nodes: " .. #Game.map.allNodes, 10, 124)
     end
 end
 

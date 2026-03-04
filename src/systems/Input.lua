@@ -50,7 +50,7 @@ function M:update()
         if CM.heldCard and button == 1 then
             if y <= Screen.height / 2 and Player.Mana >= CM.heldCard.cost then
                 if CM.heldCard.type == "target" then
-                    CM.heldCard.action(Enemy)
+                    CM.heldCard.action(Game.Enemy)
                 elseif CM.heldCard.type == "self" then
                     CM.heldCard.action(Player)
                 elseif CM.heldCard.type == "Utility" then

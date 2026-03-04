@@ -8,12 +8,12 @@
     to use them. (I think the current system will work fine)
 
 * Work on game loop system.
-    - [ ] play should go to map and map to combat / room then back 
+    - [ ] play should go to map and map to combat /room then back 
         to map.
-    - [ ] Work on game loop code. 
+    - [x] Work on game loop code. 
 
 * Make more enemies
-    - [ ] Need to make elites and bosses along with more normal
+    - [x] Need to make elites and bosses along with more normal
         enemies.
 
 - Work on Map
@@ -61,11 +61,20 @@
 
 # Updates
 
+* 04.03.26 --Version 008 
+    Gameloop now works as intended all though it is still basic.
+    The right enemy apares when entering a combat room and it's 
+    posible to enter a room of the same type after having been 
+    in one allready.
+
+    Added BossEnemy.lua (Just a copy of Elite Enemy, but purple)
+
 * 03.03.26 --Version 008
-    Added RoundStart and RoundEnd to Game.States. Tried to get game
-    loop to work, but after deafeting the first enemy I can't enter
-    an other combat room. I don't realy know why, it might be the 
-    enemy is not properly created again on entering the room.
+    Added RoundStart and RoundEnd to Game.States. Tried to get 
+    game loop to work, but after deafeting the first enemy I 
+    can't enter an other combat room. I don't realy know why, it 
+    might be the enemy is not properly created again on 
+    entering the room.
 
     Added stuff to todo list.
 

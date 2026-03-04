@@ -13,6 +13,7 @@ local Player = require("entities.Player")
 local Enemies = {}
 Enemies.Slime = require("entities.enemies.Slime_Enemy_Green")
 Enemies.Elite = require("enemies.Elite_Enemy_Test")
+Enemies.Boss = require("enemies.BossEnemy")
 
 Game.SiteType = {
     NormalCombat = "NormalCombat",
@@ -48,6 +49,7 @@ function Game:new()
     self.round = 0
     self.cpuEndTime = 0
     self.hasMap = nil
+    self.deckCreated = false
 end
 
 local function canConnect(current_floor, current_width, prev_room, existing_rooms, current_iter)
@@ -179,6 +181,7 @@ function Game:load()
     Player:new()
     Enemies.Slime:new()
     Enemies.Elite:new()
+    Enemies.Boss:new()
 end
 
 function Game:update()
@@ -194,11 +197,14 @@ function Game:update()
     if self.Stage == Game.Stages.Combat then
         if not Game.Enemy then
             if Game.map.currentNode.type == CombatNode then
+                Enemies.Slime:new()
                 Game.Enemy = Enemies.Slime
             elseif Game.map.currentNode.type == EliteCombatNode then
+                Enemies.Elite:new()
                 Game.Enemy = Enemies.Elite
             elseif Game.map.currentNode.type == BossCombatNode then
-                Game.Enemy = Enemies.Elite
+                Enemies.Boss:new()
+                Game.Enemy = Enemies.Boss
             end
         end
 
@@ -209,10 +215,22 @@ function Game:update()
             self:toCombatEnd()
         end
         if self.State == Game.States.CombatStart then
-            CM.deck = CM.createDeck()
-            CM.hand = {}
-            CM.discardPile = {}
-            CM.deck = CM.shuffledCopy(CM.deck)
+            if not self.deckCreated then
+                CM.deck = CM.createDeck()
+                CM.hand = {}
+                CM.discardPile = {}
+                CM.deck = CM.shuffledCopy(CM.deck)
+                self.deckCreated = true
+            elseif self.round == 0 then
+                if #CM.discardPile > 0 then
+                    CM.discardHand(CM.discardPile, CM.deck)
+                end
+                if #CM.hand > 0 then
+                    CM.discardHand(CM.hand, CM.deck)
+                end
+                CM.deck = CM.shuffledCopy(CM.deck)
+                self.turnStart = true
+            end
             self:toRoundStart()
         end
         if self.State == Game.States.RoundStart then
@@ -240,8 +258,8 @@ function Game:update()
         end
         if self.State == Game.States.CPUTurn then
             if self.cpuTurnStart then
-                Enemy.Armor = 0
-                Enemy:action()
+                Game.Enemy.Armor = 0
+                Game.Enemy:action()
                 self.cpuTurnStart = false
                 self.cpuEndTime = love.timer.getTime() + 1
             end
@@ -254,13 +272,13 @@ function Game:update()
             end
         end
         if self.State == Game.States.RoundEnd then
-            self.round = 0
             self:toRoundStart()
         end
         if self.State == Game.States.CombatEnd then
-            self.Stage = Game.Stages.Map
-            self.Enemy = nil
-            self.State = Game.States.CombatStart
+            self.round = 0
+            Game.Enemy = nil
+            Game:switchStage(Game.Stages.Map)
+            self:toCombatStart()
         end
     end
 end
