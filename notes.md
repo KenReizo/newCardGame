@@ -61,6 +61,9 @@
 
 # Updates
 
+* 05.03.26 --Version 008
+    Moved generateMap() and canConnect() to map.lua.
+
 * 04.03.26 --Version 008 
     Gameloop now works as intended all though it is still basic.
     The right enemy apares when entering a combat room and it's 

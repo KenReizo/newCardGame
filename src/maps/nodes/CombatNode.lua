@@ -25,18 +25,21 @@ function CombatNode:draw()
     love.graphics.circle("fill", posx, posy, self.size)
 
     if self.visited then
-        love.graphics.setColor(1, 1, 1, 0.5)
-        love.graphics.setLineWidth(3)
-        love.graphics.circle("line", posx, posy, self.size)
-        love.graphics.setLineWidth(1)
+        love.graphics.setColor(1, 0, 0)
+    else
+        love.graphics.setColor(1, 1, 1)
     end
+    love.graphics.setLineWidth(2)
+    love.graphics.circle("line", posx, posy, self.size)
+    love.graphics.setLineWidth(1)
     love.graphics.setColor(1, 1, 1, 1)
 end
 
 function CombatNode:trigger()
     if not self.visited then
-        Game.map.nodes[self.y][self.x].visited = true
+        -- Game.map.nodes[self.y][self.x].visited = true
         Game.map.currentNode = Game.map.nodes[self.y][self.x]
+        Game.map.currentNode.visited = true
         Game:switchStage(Game.Stages.Combat)
     end
 end

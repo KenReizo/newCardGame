@@ -22,13 +22,14 @@ function BossCombatNode:draw()
     end
 
     love.graphics.circle("fill", posx, posy, self.size)
-
     if self.visited then
-        love.graphics.setColor(1, 1, 1, 0.5)
-        love.graphics.setLineWidth(3)
-        love.graphics.circle("line", posx, posy, self.size)
-        love.graphics.setLineWidth(1)
+        love.graphics.setColor(1, 0, 0)
+    else
+        love.graphics.setColor(1, 1, 1)
     end
+    love.graphics.setLineWidth(2)
+    love.graphics.circle("line", posx, posy, self.size)
+    love.graphics.setLineWidth(1)
     love.graphics.setColor(1, 1, 1, 1)
 end
 

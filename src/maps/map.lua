@@ -1,5 +1,11 @@
 local Button = require("ui.button")
 local Buttons = require("ui.buttons")
+-- Nodes
+local BaseNode = require("maps.nodes.BaseNode")
+local CombatNode = require("maps.nodes.CombatNode")
+local EliteCombatNode = require("maps.nodes.EliteCombatNode")
+local BossCombatNode = require("maps.nodes.BossCombatNode")
+local RestNode = require("maps.nodes.RestNode")
 
 Buttons.NodeButtons = {}
 local Map = {
@@ -71,8 +77,8 @@ local Map = {
                 for x = 1, self.width do
                     if self.nodes[y][x] then
                         local node = self.nodes[y][x]
-                        love.graphics.setColor(1, 0, 0)
                         node:draw()
+                        love.graphics.setColor(0, 0, 0, 0)
                         node.button:drawCircle(x * 100 + 200, y * 100)
                         if node.connections then
                             for _, connectedNode in ipairs(node.connections) do
@@ -90,6 +96,134 @@ local Map = {
             end
         end
         love.graphics.setColor(1, 1, 1)
+    end,
+
+    generateMap = function(self, w, h)
+        if Game.hasMap == nil then
+            Game.map:init(w, h)
+            -- Fills grid /map with empty rooms
+            for width = Game.map.width, 1, -1 do
+                for floor = 1, Game.map.height do
+                    Game.map:addNode(width, floor, BaseNode)
+                end
+            end
+            -- Adds and conects filled rooms
+            local iteration_rooms = {}
+            for i = 1, 6 do
+                iteration_rooms[i] = {}
+                local prev_room = nil
+                for floor = Game.map.height, 1, -1 do
+                    iteration_rooms[i][floor] = {}
+                    local width = math.random(1, Game.map.width)
+                    local room = { floor = floor, width = width, type = nil }
+                    local current_max_width = Game.map.width
+                    local current_min_width = 1
+
+                    if prev_room then
+                        local r = math.random(prev_room.width -
+                            1, prev_room.width + 1)
+                        if r >= Game.map.width then
+                            width = math.random(prev_room.width -
+                                2, current_max_width)
+                        elseif r <= 1 then
+                            width = math.random(
+                                current_min_width,
+                                prev_room.width + 2)
+                        else
+                            width = r
+                        end
+                        room.width = width
+
+                        if i ~= 1 and floor ~= Game.map.height then
+                            while prev_room and not
+                                self:canConnect(floor, width,
+                                    prev_room,
+                                    iteration_rooms, i) do
+                                width = math.random(1,
+                                    Game.map.width)
+                            end
+                        end
+                    end
+                    room.width = width
+
+                    if floor == 1 then
+                        room.width = math.floor(Game.map.width / 2)
+                    end
+                    ::continue ::
+                    RandomNumber = math.random(1, 4)
+                    if Game.map.nodes[floor][RandomNumber].type ~= BaseNode then
+                        goto continue
+                    end
+                    if floor < Game.map.height - 3 and floor ~= 3 and floor ~= 1 and RandomNumber == 1 then
+                        if prev_room and prev_room.type ~= EliteCombatNode then
+                            Game.map:addNode(room.width, room.floor, EliteCombatNode)
+                            room.type = EliteCombatNode
+                        elseif not prev_room then
+                            Game.map:addNode(room.width, room.floor, EliteCombatNode)
+                            room.type = EliteCombatNode
+                        end
+                    elseif floor == 1 then
+                        Game.map:addNode(room.width, room.floor, BossCombatNode)
+                        room.type = BossCombatNode
+                    elseif floor == 3 then
+                        Game.map:addNode(room.width, room.floor, RestNode)
+                        room.type = RestNode
+                    elseif floor <= Game.map.height - 3 and RandomNumber == 1 then
+                        if prev_room and prev_room.type ~= RestNode then
+                            Game.map:addNode(room.width, room.floor, RestNode)
+                            room.type = RestNode
+                        end
+                    elseif floor ~= 1 and floor ~= 3 then
+                        Game.map:addNode(room.width, room.floor, CombatNode)
+                    end
+                    iteration_rooms[i][room.floor] = room
+
+                    if prev_room then
+                        Game.map:connectNodes(
+                            prev_room.floor,
+                            prev_room.width,
+                            room.floor, room.width)
+                    end
+
+                    prev_room = room
+                end
+            end
+        end
+        -- Removes empty rooms
+        for floor = 1, Game.map.height do
+            if Game.map.nodes[floor] then
+                for width = 1, Game.map.width do
+                    if Game.map.nodes[floor][width] then
+                        if Game.map.nodes[floor][width].type == BaseNode then
+                            Game.map.nodes[floor][width] = nil
+                        end
+                    end
+                end
+            end
+        end
+        Game.hasMap = true
+    end,
+
+    canConnect = function(self, current_floor, current_width, prev_room, existing_rooms, current_iter)
+        for past_iter, _ in ipairs(existing_rooms) do
+            if past_iter ~= current_iter then
+                local prev_floor = current_floor + 1
+                local current_room_w = current_width
+                if past_iter > 0 then
+                    local past_room_w = existing_rooms[past_iter][current_floor].width
+                    local past_prev_room_w = existing_rooms[past_iter][prev_floor].width
+                    local prev_room_w = prev_room.width
+                    local noCrossing = (current_room_w >= past_room_w and
+                            prev_room_w >= past_prev_room_w) or
+                        (current_room_w <= past_room_w and
+                            prev_room_w <= past_prev_room_w)
+                    if not noCrossing then
+                        return false
+                    end
+                end
+            end
+        end
+        return true
     end
 }
 return Map
